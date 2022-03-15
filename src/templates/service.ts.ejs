@@ -1,0 +1,73 @@
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { Prisma } from '@prisma/client';
+import { exceptionMessages } from '@utils/exceptionMessages';
+import { Create<%= props.resourceEntityNameCapitalized %>Dto } from '<%= props.resourceName %>/dtos/create-<%= props.resourceEntityName %>.dto';
+import { Update<%= props.resourceEntityNameCapitalized %>Dto } from '<%= props.resourceName %>/dtos/update-<%= props.resourceEntityName %>.dto';
+import { PrismaService } from '../../prisma/services/prisma.service';
+
+@Injectable()
+export class <%= props.resourceNameCapitalized %>Service {
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(create<%= props.resourceEntityNameCapitalized %>Dto: Create<%= props.resourceEntityNameCapitalized %>Dto) {
+    return this.prisma.<%= props.resourceEntityName %>.create({
+      data: create<%= props.resourceEntityNameCapitalized %>Dto
+    });
+  }
+
+  async findAll(args?: Prisma.<%= props.resourceEntityNameCapitalized %>FindManyArgs) {
+    const entities = await this.prisma.<%= props.resourceEntityName %>.findMany(args);
+    const totalCount = await this.prisma.<%= props.resourceEntityName %>.count({
+      where: args.where,
+      skip: args.skip,
+      take: args.take,
+      orderBy: args.orderBy,
+    });
+
+    return {
+      data: entities,
+      totalCount,
+    };
+  }
+
+  async findOne(id: string) {
+    return this.prisma.<%= props.resourceEntityName %>.findUnique({
+      where: {
+        id,
+      },
+    });
+  }
+
+  async findOneOrThrow(id: string) {
+    return this.prisma.<%= props.resourceEntityName %>.findUnique({
+      where: {
+        id,
+      },
+      rejectOnNotFound: () =>
+        new NotFoundException(exceptionMessages.NOT_FOUND),
+    });
+  }
+
+  async update(id: string, update<%= props.resourceEntityNameCapitalized %>Dto: Update<%= props.resourceEntityNameCapitalized %>Dto) {
+    await this.findOneOrThrow(id);
+    return this.prisma.contact.update({
+      where: {
+        id,
+      },
+      data: update<%= props.resourceEntityNameCapitalized %>Dto,
+    });
+  }
+
+  async remove(id: string) {
+    await this.findOneOrThrow(id);
+
+    return this.prisma.<%= props.resourceEntityName %>.update({
+      where: {
+        id,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+    });
+  }
+}

@@ -1,0 +1,78 @@
+import { Auth } from '@common/decorators/auth.decorator';
+import { PaginationDto } from '@common/dtos/pagination-dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
+import { getPaginationOptions } from '@utils/getPaginationOptions';
+import { Create<%= props.resourceEntityNameCapitalized %>Dto } from '../dtos/create-<%= props.resourceEntityName %>.dto';
+import { toUpdate<%= props.resourceEntityNameCapitalized %>, Update<%= props.resourceEntityNameCapitalized %>Dto } from '../dtos/update-<%= props.resourceEntityName %>.dto';
+import { <%= props.resourceNameCapitalized %>Service } from '../services/<%= props.resourceName %>.service';
+
+type PaginateWhere = Prisma.<%= props.resourceEntityNameCapitalized %>WhereInput;
+type PaginateSelect = Prisma.<%= props.resourceEntityNameCapitalized %>Select;
+type PaginateInclude = Prisma.<%= props.resourceEntityNameCapitalized %>Include;
+type PaginateOrderBy = Prisma.Enumerable<Prisma.<%= props.resourceEntityNameCapitalized %>OrderByWithRelationInput>;
+
+type Pagination = PaginationDto<
+  PaginateWhere,
+  PaginateSelect,
+  PaginateInclude,
+  PaginateOrderBy
+>;
+
+const SUBJECT = '<%= props.resourceEntityNameCapitalized %>';
+
+@ApiTags('<%= props.resourceName %>')
+@Controller('<%= props.resourceName %>')
+export class <%= props.resourceNameCapitalized %>Controller {
+  constructor(private readonly <%= props.resourceName %>Service: <%= props.resourceNameCapitalized %>Service) {}
+
+  @Auth('create', SUBJECT)
+  @Post()
+  async create(@Body() create<%= props.resourceEntityNameCapitalized %>Dto: Create<%= props.resourceEntityNameCapitalized %>Dto) {
+    return this.<%= props.resourceName %>Service.create(create<%= props.resourceEntityNameCapitalized %>Dto);
+  }
+
+  @Auth('read', SUBJECT)
+  @Get()
+  async findAll(@Query() pagination: Pagination) {
+    return this.<%= props.resourceName %>Service.findAll(
+      getPaginationOptions<
+        PaginateWhere,
+        PaginateSelect,
+        PaginateInclude,
+        PaginateOrderBy
+      >(pagination),
+    );
+  }
+
+  @Auth('read', SUBJECT)
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.<%= props.resourceName %>Service.findOneOrThrow(id);
+  }
+
+  @Auth('update', SUBJECT)
+  @Patch(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() update<%= props.resourceEntityNameCapitalized %>Dto: Update<%= props.resourceEntityNameCapitalized %>Dto,
+  ) {
+    return this.<%= props.resourceName %>Service.update(id, toUpdate<%= props.resourceEntityNameCapitalized %>(update<%= props.resourceEntityNameCapitalized %>Dto));
+  }
+
+  @Auth('delete', SUBJECT)
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return this.<%= props.resourceName %>Service.remove(id);
+  }
+}
