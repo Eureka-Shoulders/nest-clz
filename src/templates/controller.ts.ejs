@@ -22,13 +22,6 @@ type PaginateSelect = Prisma.<%= props.resourceEntityNameCapitalized %>Select;
 type PaginateInclude = Prisma.<%= props.resourceEntityNameCapitalized %>Include;
 type PaginateOrderBy = Prisma.Enumerable<Prisma.<%= props.resourceEntityNameCapitalized %>OrderByWithRelationInput>;
 
-type Pagination = PaginationDto<
-  PaginateWhere,
-  PaginateSelect,
-  PaginateInclude,
-  PaginateOrderBy
->;
-
 const SUBJECT = '<%= props.resourceEntityNameCapitalized %>';
 
 @ApiTags('<%= props.resourceName %>')
@@ -44,7 +37,12 @@ export class <%= props.resourceNameCapitalized %>Controller {
 
   @Auth('read', SUBJECT)
   @Get()
-  async findAll(@Query() pagination: Pagination) {
+  async findAll(@Query() pagination: PaginationDto<
+    PaginateWhere,
+    PaginateSelect,
+    PaginateInclude,
+    PaginateOrderBy
+  >) {
     return this.<%= props.resourceName %>Service.findAll(
       getPaginationOptions<
         PaginateWhere,
