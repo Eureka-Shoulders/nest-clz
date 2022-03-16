@@ -2,7 +2,6 @@
   "name": "nest-clz",
   "version": "0.0.1",
   "description": "nest-clz CLI",
-  "private": true,
   "types": "build/types/types.d.ts",
   "bin": {
     "nest-clz": "bin/nest-clz"
