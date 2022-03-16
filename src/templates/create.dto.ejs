@@ -1,0 +1,26 @@
+import { Role } from '@prisma/client';
+import { Type } from 'class-transformer';
+import { CreatePersonDto } from '@people/dtos/create-person.dto';
+
+export class Create<%= props.resourceEntityNameCapitalized %>Dto {
+
+  email: string;
+
+  password: string;
+
+  avatar: string;
+
+  roles: Role[];
+
+  @IsDefined()
+  @Type(() => CreatePersonDto)
+  @ValidateNested()
+  person: CreatePersonDto;
+}
+
+export class BatchCreate<%= props.resourceEntityNameCapitalized %>Dto {
+  @IsNotEmpty()
+  @Type(() => Create<%= props.resourceEntityNameCapitalized %>Dto)
+  @ValidateNested({ each: true })
+  <%= props.resourceNameCapitalized %>: Create<%= props.resourceEntityNameCapitalized %>Dto[];
+}

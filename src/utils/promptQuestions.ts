@@ -1,6 +1,6 @@
 import { removeWhitespace, validatePromptInput } from '.'
 
-const standardInputOptions = {
+export const standardInputOptions = {
   validate: validatePromptInput,
   format: removeWhitespace,
   result: removeWhitespace,
@@ -19,6 +19,14 @@ export const promptQuestions = [
     name: 'resourceEntity',
     message: 'Resource name (singular)',
     initial: 'user',
+    ...standardInputOptions,
+  },
+  {
+    type: 'input',
+    name: 'resourceModel',
+    message:
+      'Model name (optional, if not provided, will be the same as resource(singular capitalized)) and if throws error, the other files will be generated anyway',
+    initial: 'User',
     ...standardInputOptions,
   },
   {

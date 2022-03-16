@@ -31,8 +31,15 @@
     "name": "Gabriel Silva",
     "email": "devzgabriel@gmail.com"
   },
+  "keywords": [
+    "nest",
+    "cli",
+    "typescript",
+    "shoulders"
+  ],
   "license": "MIT",
   "dependencies": {
+    "@prisma/sdk": "^3.11.0",
     "gluegun": "latest"
   },
   "devDependencies": {

@@ -1,0 +1,23 @@
+import { PartialType } from '@nestjs/mapped-types';
+import { Role } from '@prisma/client';
+import { IsOptional } from 'class-validator';
+import { pick } from 'ramda';
+
+export class Update<%= props.resourceEntityNameCapitalized %>Dto extends PartialType(
+  Create<%= props.resourceEntityNameCapitalized %>Dto
+) {
+  @IsOptional()
+  person?: UpdatePersonDto;
+
+  @IsOptional()
+  roles?: Role[];
+}
+
+export const toUpdate<%= props.resourceEntityNameCapitalized %> = pick([
+  'email',
+  'password',
+  'avatar',
+  'roles',
+  'person',
+]);
+
