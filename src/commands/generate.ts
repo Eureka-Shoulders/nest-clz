@@ -5,6 +5,8 @@ import { promptQuestions } from '../utils'
 
 module.exports = {
   name: 'generate',
+  description:
+    'Generate services, controllers, models or all of them to create your resource',
   alias: ['g'],
   run: async (toolbox: GluegunToolbox) => {
     const {
