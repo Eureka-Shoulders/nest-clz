@@ -22,14 +22,6 @@ export const promptQuestions = [
     ...standardInputOptions,
   },
   {
-    type: 'input',
-    name: 'resourceModel',
-    message:
-      'Model name (optional, if not provided, will be the same as resource(singular capitalized)) and if throws error, the other files will be generated anyway',
-    initial: 'User',
-    ...standardInputOptions,
-  },
-  {
     type: 'select',
     name: 'scope',
     message: 'Scope',
