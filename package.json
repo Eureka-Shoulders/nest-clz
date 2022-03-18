@@ -1,6 +1,6 @@
 {
   "name": "nest-clz",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Your CLI by Shoulders to create a backend started with [nest-seed](https://github.com/Eureka-Shoulders/nest-seed)",
   "types": "build/types/types.d.ts",
   "bin": {
