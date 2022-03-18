@@ -11,7 +11,7 @@ module.exports = {
   run: async (toolbox: GluegunToolbox) => {
     const {
       template: { generate },
-      print: { info, error, success },
+      print: { info, error, success, warning },
       prompt,
     } = toolbox
 
@@ -35,5 +35,13 @@ module.exports = {
     success(
       `Generated ${promptResult.scope} ${promptResult.resource} with success`
     )
+    warning(`You need to update your code to complete the generation:
+    - Add the subject on Auth type, maybe on "src/common/types/subject.ts"
+    ${
+      ['controller', 'resource'].includes(promptResult.scope)
+        ? '- Add the new controller to your app.module'
+        : ''
+    }
+    `)
   },
 }
