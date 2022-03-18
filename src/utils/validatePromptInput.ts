@@ -1,4 +1,4 @@
-import { removeWhitespace } from './removeWhitespace'
+import { removeWhitespace } from '@euk-labs/beltz'
 
 export function validatePromptInput(input: string) {
   const inputWithoutWhitespace = removeWhitespace(input)

@@ -1,6 +1,6 @@
 {
   "name": "nest-clz",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Your CLI by Shoulders to create a backend started with [nest-seed](https://github.com/Eureka-Shoulders/nest-seed)",
   "types": "build/types/types.d.ts",
   "bin": {
@@ -31,9 +31,18 @@
     "name": "Gabriel Silva",
     "email": "devzgabriel@gmail.com"
   },
+  "keywords": [
+    "nest",
+    "cli",
+    "typescript",
+    "shoulders"
+  ],
   "license": "MIT",
   "dependencies": {
-    "gluegun": "latest"
+    "@euk-labs/beltz": "^2.4.2",
+    "@prisma/sdk": "^3.11.0",
+    "gluegun": "latest",
+    "ramda": "^0.28.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",

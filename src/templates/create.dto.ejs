@@ -1,0 +1,21 @@
+import {
+  IsDefined,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsStrongPassword,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+<%- props.dtoImports %>
+
+export class Create<%- props.resourceEntityNameCapitalized %>Dto {
+  <%- props.dtoFieldsObject %>
+}
+
+export class BatchCreate<%- props.resourceEntityNameCapitalized %>Dto {
+  @IsNotEmpty()
+  @Type(() => Create<%- props.resourceEntityNameCapitalized %>Dto)
+  @ValidateNested({ each: true })
+  <%- props.resourceName %> : Create<%- props.resourceEntityNameCapitalized %>Dto[];
+}

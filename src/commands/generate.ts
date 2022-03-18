@@ -1,7 +1,7 @@
 import { GluegunToolbox } from 'gluegun'
 import { GenerationPrompt } from '../types'
 import { getGenerationOptions } from '../utils'
-import { promptQuestions } from '../utils'
+import { promptQuestions } from '../utils/prompt/promptQuestions'
 
 module.exports = {
   name: 'generate',

@@ -1,19 +1,15 @@
-import { removeWhitespace, validatePromptInput } from '.'
+import { standardInputOptions } from './standardInputOptions'
 
-const standardInputOptions = {
-  validate: validatePromptInput,
-  format: removeWhitespace,
-  result: removeWhitespace,
+export const resourceQuestion = {
+  type: 'input',
+  name: 'resource',
+  message: 'Resource name',
+  initial: 'users',
+  ...standardInputOptions,
 }
 
 export const promptQuestions = [
-  {
-    type: 'input',
-    name: 'resource',
-    message: 'Resource name (plural)',
-    initial: 'users',
-    ...standardInputOptions,
-  },
+  resourceQuestion,
   {
     type: 'input',
     name: 'resourceEntity',

@@ -1,6 +1,5 @@
+import { capitalizeString } from '@euk-labs/beltz'
 import { GenerationPrompt } from '../types'
-import { capitalizeString } from '.'
-
 export function getGenerationOptions({
   scope,
   resource,

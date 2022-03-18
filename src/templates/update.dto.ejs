@@ -1,0 +1,16 @@
+import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { IsOptional } from 'class-validator';
+import { pick } from 'ramda';
+import { Create<%- props.resourceEntityNameCapitalized %>Dto } from './create-<%- props.resourceEntityName %>.dto';
+<%- props.dtoImports %>
+
+export class Update<%- props.resourceEntityNameCapitalized %>Dto extends OmitType(PartialType(Create<%- props.resourceEntityNameCapitalized %>Dto), 
+<%- props.omittedFields %>
+) {
+  <%- props.dtoFieldsObject %>
+}
+
+export const toUpdate<%- props.resourceEntityNameCapitalized %> = pick([
+  // Write your own fields updatable here
+]);
+
