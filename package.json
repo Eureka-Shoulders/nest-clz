@@ -39,8 +39,10 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@euk-labs/beltz": "^2.4.2",
     "@prisma/sdk": "^3.11.0",
-    "gluegun": "latest"
+    "gluegun": "latest",
+    "ramda": "^0.28.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
