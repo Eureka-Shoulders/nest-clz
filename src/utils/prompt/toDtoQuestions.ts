@@ -1,10 +1,11 @@
+import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types'
 import { DtoTo } from '../../types/prisma'
-import { resourceQuestion } from './promptQuestions'
+import { resourceQuestion } from './resourceQuestions'
 import { standardInputOptions } from './standardInputOptions'
 
 export const DTO_OPTIONS: DtoTo[] = ['Create', 'Update']
 
-export const toDtoQuestions = [
+export const toDtoQuestions: PromptOptions[] = [
   {
     type: 'input',
     name: 'schemaPath',
@@ -17,9 +18,9 @@ export const toDtoQuestions = [
   {
     type: 'input',
     name: 'resourceModel',
+    required: false,
     message:
       'Model name, if not provided, will be the same as resource(singular capitalized)',
-    ...standardInputOptions,
   },
   {
     type: 'select',

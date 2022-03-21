@@ -1033,6 +1033,11 @@
   resolved "https://verdaccio.eurekalabs.com.br/@types%2fparse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
   integrity sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==
 
+"@types/pluralize@^0.0.29":
+  version "0.0.29"
+  resolved "https://verdaccio.eurekalabs.com.br/@types%2fpluralize/-/pluralize-0.0.29.tgz#6ffa33ed1fc8813c469b859681d09707eb40d03c"
+  integrity sha512-BYOID+l2Aco2nBik+iYS4SZX0Lf20KPILP5RGmM1IgzdwNdTs0eebiFriOPcej1sX9mLnSoiNte5zcFxssgpGA==
+
 "@types/prettier@^2.0.0":
   version "2.4.4"
   resolved "https://verdaccio.eurekalabs.com.br/@types%2fprettier/-/prettier-2.4.4.tgz#5d9b63132df54d8909fce1c3f8ca260fdd693e17"

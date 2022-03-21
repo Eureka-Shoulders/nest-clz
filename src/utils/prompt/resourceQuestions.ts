@@ -1,6 +1,7 @@
+import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types'
 import { standardInputOptions } from './standardInputOptions'
 
-export const resourceQuestion = {
+export const resourceQuestion: PromptOptions = {
   type: 'input',
   name: 'resource',
   message: 'Resource name',
@@ -8,15 +9,8 @@ export const resourceQuestion = {
   ...standardInputOptions,
 }
 
-export const promptQuestions = [
+export const resourceQuestions: PromptOptions[] = [
   resourceQuestion,
-  {
-    type: 'input',
-    name: 'resourceEntity',
-    message: 'Resource name (singular)',
-    initial: 'user',
-    ...standardInputOptions,
-  },
   {
     type: 'select',
     name: 'scope',

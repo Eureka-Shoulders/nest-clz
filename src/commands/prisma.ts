@@ -1,7 +1,9 @@
+import { capitalizeString } from '@euk-labs/beltz'
 import { getDMMF } from '@prisma/sdk'
 import { GluegunToolbox } from 'gluegun'
+import { singular } from 'pluralize'
 import { generateDto } from '../services/generateDto'
-import { DtoTo } from '../types/prisma'
+import { DtoGenPrompt } from '../types/prompt'
 import { DTO_OPTIONS, toDtoQuestions } from '../utils/prompt/toDtoQuestions'
 
 module.exports = {
@@ -16,9 +18,8 @@ module.exports = {
       print: { info, error, success },
     } = toolbox
 
-    const { schemaPath, resourceModel, resource, dtoTo } = await ask(
-      toDtoQuestions
-    )
+    const { schemaPath, resourceModel, resource, dtoTo } =
+      await ask<DtoGenPrompt>(toDtoQuestions)
 
     const prismaSchemaFile = read(schemaPath)
 
@@ -33,10 +34,14 @@ module.exports = {
       datamodel: prismaSchemaFile,
     })
 
-    const model = models.find((m) => m.name === resourceModel)
+    const modelName = resourceModel || capitalizeString(singular(resource))
+
+    const model = models.find((m) => m.name === modelName)
 
     if (!model) {
-      error('Model not found, verify if your model name exists in your schema')
+      error(
+        `Model ${modelName}  not found, verify if your model name exists in your schema`
+      )
       return
     }
 
@@ -47,7 +52,7 @@ module.exports = {
         for (const dtoOption of DTO_OPTIONS) {
           const { targetPath } = await generateDto({
             resource,
-            dtoTo: dtoOption as DtoTo,
+            dtoTo: dtoOption,
             model,
             generate,
           })
@@ -59,7 +64,7 @@ module.exports = {
       default:
         const { targetPath } = await generateDto({
           resource,
-          dtoTo: dtoTo as DtoTo,
+          dtoTo: dtoTo,
           model,
           generate,
         })

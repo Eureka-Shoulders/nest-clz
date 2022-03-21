@@ -1,5 +1,5 @@
 export * from './getGenerationOptions'
-export * from './prompt/promptQuestions'
+export * from './prompt/resourceQuestions'
 export * from './prompt/standardInputOptions'
 export * from './prompt/toDtoQuestions'
 export * from './validatePromptInput'

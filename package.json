@@ -1,6 +1,6 @@
 {
   "name": "nest-clz",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Your CLI by Shoulders to create a backend started with [nest-seed](https://github.com/Eureka-Shoulders/nest-seed)",
   "types": "build/types/types.d.ts",
   "bin": {
@@ -42,6 +42,7 @@
     "@euk-labs/beltz": "^2.4.2",
     "@prisma/sdk": "^3.11.0",
     "gluegun": "latest",
+    "pluralize": "^8.0.0",
     "ramda": "^0.28.0"
   },
   "devDependencies": {
@@ -49,6 +50,7 @@
     "@commitlint/config-conventional": "^16.2.1",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.7.11",
+    "@types/pluralize": "^0.0.29",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
     "copyfiles": "^2.4.1",

@@ -1,19 +1,18 @@
 import { capitalizeString } from '@euk-labs/beltz'
-import { GenerationPrompt } from '../types'
+import { singular } from 'pluralize'
+import { ResourceGenPrompt } from '../types/prompt'
 export function getGenerationOptions({
   scope,
   resource,
-  resourceEntity,
   ...rest
-}: GenerationPrompt) {
-  const resourceNameCapitalized = capitalizeString(resource)
-  const resourceEntityNameCapitalized = capitalizeString(resourceEntity)
+}: ResourceGenPrompt) {
+  const resourceEntityName = singular(resource)
 
   const props = {
     resourceName: resource,
-    resourceEntityName: resourceEntity,
-    resourceNameCapitalized,
-    resourceEntityNameCapitalized,
+    resourceEntityName,
+    resourceNameCapitalized: capitalizeString(resource),
+    resourceEntityNameCapitalized: capitalizeString(resourceEntityName),
     ...rest,
   }
 

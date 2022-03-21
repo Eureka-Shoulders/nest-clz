@@ -1,7 +1,7 @@
 import { GluegunToolbox } from 'gluegun'
-import { GenerationPrompt } from '../types'
+import { ResourceGenPrompt } from '../types/prompt'
 import { getGenerationOptions } from '../utils'
-import { promptQuestions } from '../utils/prompt/promptQuestions'
+import { resourceQuestions } from '../utils/prompt/resourceQuestions'
 
 module.exports = {
   name: 'generate',
@@ -15,13 +15,11 @@ module.exports = {
       prompt,
     } = toolbox
 
-    const promptResult = await prompt.ask(promptQuestions)
+    const promptResult = await prompt.ask<ResourceGenPrompt>(resourceQuestions)
 
     info(`Generating ${promptResult.scope} ${promptResult.resource}...`)
 
-    const generationOptions = getGenerationOptions(
-      promptResult as GenerationPrompt
-    )
+    const generationOptions = getGenerationOptions(promptResult)
 
     if (!generationOptions) {
       error('Error on generating options with your input.')
