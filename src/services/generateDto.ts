@@ -1,4 +1,6 @@
+import { capitalizeString } from '@euk-labs/beltz'
 import { GluegunTemplateGenerateOptions } from 'gluegun/build/types/toolbox/template-types'
+import { singular } from 'pluralize'
 import { DtoTo, PrismaModel } from '../types/prisma'
 import { getDtoClassStringified } from './getDtoClassStringified'
 import { getDtoImportsStringified } from './getDtoImportsStringified'
@@ -14,7 +16,9 @@ export async function generateDto({
   model: PrismaModel
   generate: (options: GluegunTemplateGenerateOptions) => Promise<string>
 }) {
-  const targetPath = `src/${resource}/dtos/${dtoTo.toLocaleLowerCase()}-${model.name.toLowerCase()}.dto.ts`
+  const resourceName = resource.toLocaleLowerCase()
+  const resourceEntityName = singular(resourceName)
+  const targetPath = `src/${resourceName}/dtos/${dtoTo.toLocaleLowerCase()}-${resourceEntityName}.dto.ts`
   const { dtoFieldsObject, omittedFields } = getDtoClassStringified(
     model,
     dtoTo
@@ -27,9 +31,9 @@ export async function generateDto({
     props: {
       dtoImports,
       dtoFieldsObject,
-      resourceEntityName: model.name.toLocaleLowerCase(),
-      resourceEntityNameCapitalized: model.name,
-      resourceName: resource,
+      resourceEntityName,
+      resourceEntityNameCapitalized: capitalizeString(resourceEntityName),
+      resourceName,
       omittedFields: `[${omittedFields}]`,
     },
   })

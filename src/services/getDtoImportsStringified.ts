@@ -1,4 +1,5 @@
 import { DtoTo, PrismaModel } from '../types/prisma'
+import { plural } from 'pluralize'
 
 export function getDtoImportsStringified(model: PrismaModel, dtoTo: DtoTo) {
   let imports = ''
@@ -15,8 +16,9 @@ export function getDtoImportsStringified(model: PrismaModel, dtoTo: DtoTo) {
         .replace(`${model.name}`, '')
         .replace('To', '')
       const relationDto = `${dtoTo}${relationWith}Dto`
-      // TODO: pluralize resource name
-      imports += `import { ${relationDto} } from '@${relationWith.toLocaleLowerCase()}/dtos/create-${relationWith.toLocaleLowerCase()}.dto'\n`
+      imports += `import { ${relationDto} } from '@${plural(
+        relationWith.toLocaleLowerCase()
+      )}/dtos/create-${relationWith.toLocaleLowerCase()}.dto'\n`
     }
   })
 

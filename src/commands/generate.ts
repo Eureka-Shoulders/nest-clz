@@ -1,7 +1,7 @@
 import { GluegunToolbox } from 'gluegun'
-import { GenerationPrompt } from '../types'
+import { ResourceGenPrompt } from '../types/prompt'
 import { getGenerationOptions } from '../utils'
-import { promptQuestions } from '../utils/prompt/promptQuestions'
+import { resourceQuestions } from '../utils/prompt/resourceQuestions'
 
 module.exports = {
   name: 'generate',
@@ -11,17 +11,15 @@ module.exports = {
   run: async (toolbox: GluegunToolbox) => {
     const {
       template: { generate },
-      print: { info, error, success },
+      print: { info, error, success, warning },
       prompt,
     } = toolbox
 
-    const promptResult = await prompt.ask(promptQuestions)
+    const promptResult = await prompt.ask<ResourceGenPrompt>(resourceQuestions)
 
     info(`Generating ${promptResult.scope} ${promptResult.resource}...`)
 
-    const generationOptions = getGenerationOptions(
-      promptResult as GenerationPrompt
-    )
+    const generationOptions = getGenerationOptions(promptResult)
 
     if (!generationOptions) {
       error('Error on generating options with your input.')
@@ -35,5 +33,13 @@ module.exports = {
     success(
       `Generated ${promptResult.scope} ${promptResult.resource} with success`
     )
+    warning(`You need to update your code to complete the generation:
+    - Add the subject on Auth type, maybe on "src/common/types/subject.ts"
+    ${
+      ['controller', 'resource'].includes(promptResult.scope)
+        ? '- Add the new controller to your app.module'
+        : ''
+    }
+    `)
   },
 }
