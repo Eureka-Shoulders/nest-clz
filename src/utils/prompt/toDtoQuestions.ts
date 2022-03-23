@@ -3,7 +3,7 @@ import { DtoTo } from '../../types/prisma'
 import { resourceQuestion } from './resourceQuestions'
 import { standardInputOptions } from './standardInputOptions'
 
-export const DTO_OPTIONS: DtoTo[] = ['Create', 'Update']
+export const DTO_OPTIONS: DtoTo[] = ['Create', 'Update', 'Get', 'List']
 
 export const toDtoQuestions: PromptOptions[] = [
   {

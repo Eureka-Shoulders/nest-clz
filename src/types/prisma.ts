@@ -26,4 +26,4 @@ export type PrismaModel = {
   documentation?: string
 }
 
-export type DtoTo = 'Create' | 'Update'
+export type DtoTo = 'Create' | 'Update' | 'Get' | 'List'

@@ -1,0 +1,17 @@
+import { BaseDTO } from '@common/dtos/base.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { <%- props.resourceEntityNameCapitalized %> } from '@prisma/client';
+
+export class List<%- props.resourceEntityNameCapitalized %>DTO extends BaseDTO<List<%- props.resourceEntityNameCapitalized %>DTO> {
+  <%- props.dtoFieldsObject %>
+
+  static toDTO({ data, totalCount }: { data: <%- props.resourceEntityNameCapitalized %>[]; totalCount?: number }) {
+    return {
+      data: data.map(
+        (entity) =>
+          new ListUserDTO(<%- props.toDTOObject %>),
+      ),
+      totalCount,
+    };
+  }
+}

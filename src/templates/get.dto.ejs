@@ -1,0 +1,11 @@
+import { BaseDTO } from '@common/dtos/base.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { <%- props.resourceEntityNameCapitalized %> } from '@prisma/client';
+
+export class Get<%- props.resourceEntityNameCapitalized %>DTO extends BaseDTO<Get<%- props.resourceEntityNameCapitalized %>DTO> {
+  <%- props.dtoFieldsObject %>
+
+  static toDTO(entity: <%- props.resourceEntityNameCapitalized %>) {
+    return new Get<%- props.resourceEntityNameCapitalized %>DTO(<%- props.toDTOObject %>);
+  }
+}

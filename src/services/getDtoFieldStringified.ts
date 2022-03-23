@@ -1,4 +1,5 @@
 import { DtoTo, PrismaField } from '../types/prisma'
+import { dateAttributes, sensitiveData } from '../utils/presets'
 
 function handleType(type: string) {
   switch (type) {
@@ -25,6 +26,7 @@ function handleType(type: string) {
 
 function getExtraValidators(
   fieldName: string,
+  fieldType: string,
   relationWith: string,
   dtoTo: DtoTo
 ) {
@@ -32,15 +34,38 @@ function getExtraValidators(
     return `@Type(() => ${dtoTo}${relationWith}Dto)
     @ValidateNested()`
   }
+
+  let extraValidators = ''
+
   switch (fieldName) {
     case 'email':
-      return `@IsEmail()`
+      extraValidators += `@IsEmail()`
+      break
     case 'password':
-      return `@IsNotEmpty()
-    @IsStrongPassword()`
+      extraValidators += `@IsStrongPassword()`
+      break
     default:
-      return ''
+      if (fieldName.endsWith('Id')) {
+        extraValidators += `@IsUUID()`
+      }
+      break
   }
+
+  switch (fieldType) {
+    case 'boolean':
+      extraValidators += `@IsBoolean()`
+      break
+    case 'number':
+      extraValidators += `@IsNumber()`
+      break
+    case 'Date':
+      extraValidators += `@IsDateString()`
+      break
+    default:
+      break
+  }
+
+  return extraValidators
 }
 
 export function getDtoFieldStringified(
@@ -48,14 +73,7 @@ export function getDtoFieldStringified(
   dtoTo: DtoTo,
   modelName: string
 ) {
-  if (
-    field.isId ||
-    field.kind === 'unsupported' ||
-    name === 'createdAt' ||
-    name === 'updatedAt'
-  ) {
-    return ''
-  }
+  if (field.kind === 'unsupported') return ''
 
   const relationWith =
     field.kind === 'object' && relationName !== undefined
@@ -66,20 +84,61 @@ export function getDtoFieldStringified(
     ? `${dtoTo}${relationWith}Dto`
     : handleType(field.type)
 
+  const nameLine = `${name}${field.isRequired ? '?' : ''}: ${fieldType}${
+    field.isList ? '[]' : ''
+  }`
+
+  const propertyTipe =
+    field.kind === 'enum'
+      ? `enum: ${fieldType}`
+      : relationWith
+      ? `type: ${fieldType}`
+      : `type: '${fieldType}'`
+
   switch (dtoTo) {
     case 'Create':
+      if (field.isId || dateAttributes.includes(name)) return ''
+
       return `
-    ${field.isRequired ? '@IsDefined()' : '@IsOptional()'}
-    ${getExtraValidators(name, relationWith, dtoTo)}
-    ${name}: ${fieldType}${field.isList ? '[]' : ''}
+    ${
+      field.isRequired
+        ? fieldType === 'string'
+          ? '@IsNotEmpty()'
+          : '@IsDefined()'
+        : '@IsOptional()'
+    }
+    ${getExtraValidators(name, fieldType, relationWith, dtoTo)}
+    ${nameLine}
     `
+
     case 'Update':
+      if (field.isId || dateAttributes.includes(name)) return ''
+
       if (relationWith) {
         return `
         @IsOptional()
         ${name}?: ${fieldType}${field.isList ? '[]' : ''}`
       }
       return ''
+
+    case 'Get':
+      if (sensitiveData.includes(name)) return ''
+
+      return `
+      @ApiProperty({ ${propertyTipe}${
+        field.isList && field.kind !== 'enum' ? '[]' : ''
+      } })
+      ${nameLine}
+      `
+    case 'List':
+      if (sensitiveData.includes(name) || field.kind === 'object') return ''
+
+      return `
+      @ApiProperty({ ${propertyTipe}${
+        field.isList && field.kind !== 'enum' ? '[]' : ''
+      } })
+      ${nameLine}
+      `
     default:
       return ''
   }
