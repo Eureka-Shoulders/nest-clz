@@ -12,10 +12,10 @@ module.exports = {
     const {
       template: { generate },
       print: { info, error, success, warning },
-      prompt,
+      prompt: { ask },
     } = toolbox
 
-    const promptResult = await prompt.ask<ResourceGenPrompt>(resourceQuestions)
+    const promptResult = await ask<ResourceGenPrompt>(resourceQuestions)
 
     info(`Generating ${promptResult.scope} ${promptResult.resource}...`)
 

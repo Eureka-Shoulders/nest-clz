@@ -1,18 +1,15 @@
-import { capitalizeString } from '@euk-labs/beltz'
-import { singular } from 'pluralize'
 import { ResourceGenPrompt } from '../types/prompt'
+import { getNamesByResource } from './getNamesByResource'
 export function getGenerationOptions({
   scope,
   resource,
   ...rest
 }: ResourceGenPrompt) {
-  const resourceEntityName = singular(resource)
+  const { resourceName, ...resourceNames } = getNamesByResource(resource)
 
   const props = {
-    resourceName: resource,
-    resourceEntityName,
-    resourceNameCapitalized: capitalizeString(resource),
-    resourceEntityNameCapitalized: capitalizeString(resourceEntityName),
+    resourceName,
+    ...resourceNames,
     ...rest,
   }
 
@@ -21,17 +18,17 @@ export function getGenerationOptions({
       return [
         {
           template: `module.ts.ejs`,
-          target: `src/${resource}/${resource}.module.ts`,
+          target: `src/${resourceName}/${resourceName}.module.ts`,
           props,
         },
         {
           template: `controller.ts.ejs`,
-          target: `src/${resource}/controllers/${resource}.controller.ts`,
+          target: `src/${resourceName}/controllers/${resourceName}.controller.ts`,
           props,
         },
         {
           template: `service.ts.ejs`,
-          target: `src/${resource}/services/${resource}.service.ts`,
+          target: `src/${resourceName}/services/${resourceName}.service.ts`,
           props,
         },
       ]
@@ -39,7 +36,7 @@ export function getGenerationOptions({
       return [
         {
           template: `controller.ts.ejs`,
-          target: `src/${resource}/controllers/${resource}.controller.ts`,
+          target: `src/${resourceName}/controllers/${resourceName}.controller.ts`,
           props,
         },
       ]
@@ -47,7 +44,7 @@ export function getGenerationOptions({
       return [
         {
           template: `service.ts.ejs`,
-          target: `src/${resource}/services/${resource}.service.ts`,
+          target: `src/${resourceName}/services/${resourceName}.service.ts`,
           props,
         },
       ]
@@ -55,7 +52,7 @@ export function getGenerationOptions({
       return [
         {
           template: `module.ts.ejs`,
-          target: `src/${resource}/${resource}.module.ts`,
+          target: `src/${resourceName}/${resourceName}.module.ts`,
           props,
         },
       ]
